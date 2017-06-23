@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="relative_layout_padding">16dp</dimen>
+    <dimen name="linear_layout_padding">5dp</dimen>
+    <dimen name="text_size">15sp</dimen>
+</resources>
