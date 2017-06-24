@@ -60,14 +60,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.title_textView)
-        TextView mTitle;
-        @BindView(R.id.section_textView)
-        TextView mSection;
-        @BindView(R.id.type_textView)
-        TextView mType;
-        @BindView(R.id.date_textView)
-        TextView mDate;
+        @BindView(R.id.title_textView) TextView mTitle;
+        @BindView(R.id.section_textView) TextView mSection;
+        @BindView(R.id.type_textView) TextView mType;
+        @BindView(R.id.date_textView) TextView mDate;
 
         public NewsViewHolder(View view) {
             super(view);

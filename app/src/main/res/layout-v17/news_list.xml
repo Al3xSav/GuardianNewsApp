@@ -26,7 +26,7 @@
 
         <TextView
             style="@style/text_views_listing"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/type_label"
             android:textColor="@color/colorType" />
 
@@ -45,7 +45,7 @@
 
         <TextView
             style="@style/text_views_listing"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/date_label"
             android:textColor="@color/colorDate" />
 

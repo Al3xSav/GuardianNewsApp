@@ -28,12 +28,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private static final int NEWS_LOADER_ID = 1;
     private static final String NEWS_REQUEST_URL = "https://content.guardianapis.com/search?q=football";
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.empty_textView)
-    TextView emptyStateTextView;
-    @BindView(R.id.progress_bar)
-    View progressBar;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.empty_textView) TextView emptyStateTextView;
+    @BindView(R.id.progress_bar) View progressBar;
     private NewsAdapter newsAdapter;
     private String searchQuery;
 
