@@ -1,6 +1,5 @@
 package com.example.android.guardiannewsapp;
 
-
 public class News {
     private String mSection;
     private String mTitle;
@@ -19,15 +18,19 @@ public class News {
     public String getSection() {
         return mSection;
     }
+
     public String getTitle() {
         return mTitle;
     }
+
     public String getType() {
         return mType;
     }
+
     public String getDate() {
         return mDate;
     }
+
     public String getUrl() {
         return mUrl;
     }

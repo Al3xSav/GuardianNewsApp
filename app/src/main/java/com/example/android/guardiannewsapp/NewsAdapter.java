@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,10 +19,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public NewsAdapter(List<News> news, OnItemClickListener listener) {
         newsList = news;
         onItemClickListener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(News news);
     }
 
     @Override
@@ -43,13 +41,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public int getItemCount() { return newsList.size();}
+    public int getItemCount() {
+        return newsList.size();
+    }
+
+    public void clear() {
+        newsList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<News> list) {
+        newsList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(News news);
+    }
 
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.title_textView) TextView mTitle;
-        @BindView(R.id.section_textView) TextView mSection;
-        @BindView(R.id.type_textView) TextView mType;
-        @BindView(R.id.date_textView) TextView mDate;
+        @BindView(R.id.title_textView)
+        TextView mTitle;
+        @BindView(R.id.section_textView)
+        TextView mSection;
+        @BindView(R.id.type_textView)
+        TextView mType;
+        @BindView(R.id.date_textView)
+        TextView mDate;
 
         public NewsViewHolder(View view) {
             super(view);
@@ -64,15 +82,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 }
             });
         }
-    }
-
-    public void clear(){
-        newsList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<News> list){
-        newsList.addAll(list);
-        notifyDataSetChanged();
     }
 }

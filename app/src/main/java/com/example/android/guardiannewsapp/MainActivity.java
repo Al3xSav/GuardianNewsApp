@@ -16,22 +16,26 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
         LoaderManager.LoaderCallbacks<List<News>> {
 
+    private static final int NEWS_LOADER_ID = 1;
+    private static final String NEWS_REQUEST_URL = "https://content.guardianapis.com/search?q=football";
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.empty_textView)
+    TextView emptyStateTextView;
+    @BindView(R.id.progress_bar)
+    View progressBar;
     private NewsAdapter newsAdapter;
     private String searchQuery;
-    private static final int NEWS_LOADER_ID = 1;
-    private static final String NEWS_REQUEST_URL = "http://content.guardianapis.com/search";
-
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @BindView(R.id.empty_textView) TextView emptyStateTextView;
-    @BindView(R.id.progress_bar) View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +58,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
 
         recyclerView.setAdapter(newsAdapter);
-
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
+        // Check internet connectivity
+        if (internetConnectivity()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
@@ -70,6 +70,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
+    public boolean internetConnectivity() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         progressBar.setVisibility(View.VISIBLE);
@@ -78,19 +85,25 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         Uri baseUri = Uri.parse(NEWS_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("api-key", "30b6f2b5-5645-44bc-b000-f85a74a33cac");
-        if(searchQuery != null) {
+        if (searchQuery != null && internetConnectivity()) {
             uriBuilder.appendQueryParameter("q", searchQuery);
         }
         return new NewsLoader(this, uriBuilder.toString());
-
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> newsList) {
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setVisibility(View.VISIBLE);
-        emptyStateTextView.setText(R.string.nothing_text);
+        if (internetConnectivity()) {
+            emptyStateTextView.setText(R.string.nothing_text);
+
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            emptyStateTextView.setText(R.string.empty_text);
+        }
         newsAdapter.clear();
+
 
         if (newsList != null && !newsList.isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
@@ -100,7 +113,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public void onLoaderReset(Loader<List<News>> loader) { newsAdapter.clear();}
+    public void onLoaderReset(Loader<List<News>> loader) {
+        newsAdapter.clear();
+    }
 
     @Override
     public boolean onQueryTextChange(String newText) {

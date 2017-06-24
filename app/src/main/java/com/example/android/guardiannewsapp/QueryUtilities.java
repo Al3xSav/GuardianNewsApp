@@ -1,11 +1,12 @@
 package com.example.android.guardiannewsapp;
 
-
 import android.text.TextUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryUtilities {
-    public static final String LOG_TAG = QueryUtilities.class.getSimpleName();
-    //Constructor
-    private QueryUtilities() {}
+    private static final String LOG_TAG = QueryUtilities.class.getSimpleName();
 
-    public static ArrayList<News> getResultsFromJson (String newsJSON) {
+    //Constructor
+    private QueryUtilities() {
+    }
+
+    public static ArrayList<News> getResultsFromJson(String newsJSON) {
         // in case json string is empty or null
         if (TextUtils.isEmpty(newsJSON)) {
             return null;
@@ -40,6 +43,8 @@ public class QueryUtilities {
                 String title = newsObject.getString("webTitle");
                 String type = newsObject.getString("type");
                 String date = newsObject.getString("webPublicationDate");
+                date = date.replace("T", " T: ");
+                date = date.replace("Z", "");
                 String url = newsObject.getString("webUrl");
                 News newsResult = new News(section, title, type, date, url);
                 news.add(newsResult);
@@ -57,7 +62,7 @@ public class QueryUtilities {
             e.printStackTrace();
         }
         // Url object
-        URL url = creatUrl(requestUrl);
+        URL url = createUrl(requestUrl);
         // Perform HTTP request to the URL and receive a JSON response
         String jsonResponse = null;
         try {
@@ -69,12 +74,12 @@ public class QueryUtilities {
         return getResultsFromJson(jsonResponse);
     }
 
-    private static URL creatUrl(String stringURL) {
+    private static URL createUrl(String stringURL) {
         URL url = null;
         try {
             url = new URL(stringURL);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error with creating URL", e);
+            Log.e(LOG_TAG, "Error creating URL", e);
         }
         return url;
     }
@@ -103,7 +108,7 @@ public class QueryUtilities {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
+            Log.e(LOG_TAG, "Error in retrieving JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();

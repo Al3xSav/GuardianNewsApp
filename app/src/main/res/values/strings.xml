@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">Guardian News</string>
-    <string name="empty_text">No internet connection</string>
-    <string name="nothing_text">Nothing found</string>
+    <string name="empty_text">
+        Oops! There is no internet connection. \n\n
+        Check your connection and try again!
+    </string>
+    <string name="nothing_text">Nothing found&#8230;</string>
     <string name="img_info">News Image</string>
     <string name="section">News Section</string>
     <string name="title">News Title</string>
     <string name="type_label">Type: </string>
     <string name="type">News</string>
     <string name="date_label">Date: </string>
-    <string name="date">201X-MM-DD T hh:mm:ssz</string>
+    <string name="date">201X-MM-DD T hh:mm:ss</string>
     <string name="menu_search">Search</string>
 </resources>
