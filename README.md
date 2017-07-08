@@ -1,6 +1,6 @@
 # GuardianNewsApp
 
-This is News App with Guardian API, #6 Project for NanoDegree Program
+This is News App with Guardian API, #8 Project for NanoDegree Program
 
 <p align="center">
   <img src="http://i.imgur.com/1352FYu.png" width="350"/>
